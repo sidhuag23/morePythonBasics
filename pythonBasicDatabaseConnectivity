@@ -1,0 +1,69 @@
+import mysql.connector as x 
+
+testmydatabase=x.connect(
+    host="127.0.0.1",
+    port=3306,
+    user="root",
+    password="root",
+    database="mycarBrands"
+)
+
+mycursor = testmydatabase.cursor()
+data = mycursor.execute("SHOW DATABASES")
+fetchRow = mycursor.fetchall()
+
+# show database 
+#for x in range(len(fetchRow)):
+#    print(fetchRow[x])
+
+#create database 
+#mycursor.execute("CREATE DATABASE mycarBrands")
+#fetchRow = mycursor.fetchall()
+
+#use database 
+mycursor.execute("USE mycarBrands")
+#mycursor.execute("CREATE TABLE cars( car_id INT PRIMARY KEY, car_brand VARCHAR(200), car_engine VARCHAR(200), car_price_usd INT); ")
+
+cardata={
+    "car_id": 4,
+    "car_brand":"Porsche", 
+    "car_engine": "v12",
+    "car_price_usd" : 300000
+}
+
+values = (
+    cardata["car_id"],
+    cardata["car_brand"],
+    cardata["car_engine"],
+    cardata["car_price_usd"]
+)
+
+
+Updatevalues = (
+    cardata["car_brand"],
+    cardata["car_id"]
+)
+
+mycursor.execute(
+    "UPDATE cars SET car_brand = %s WHERE car_id = %s", 
+    Updatevalues
+)
+
+testmydatabase.commit()
+#values = (cardata["car_id"], cardata["car_brand"], cardata["car_engine"], cardata["car_price_usd"])
+#mycursor.execute(
+#    "INSERT INTO cars (car_id, car_brand, car_engine, car_price_usd) VALUES (%s, %s, %s, %s)",
+#    values
+#)
+
+
+### update 
+
+mycursor.execute("SELECT * FROM cars")
+fetchRowDatabase = mycursor.fetchall() 
+
+
+print(type(fetchRowDatabase))
+
+for x in fetchRowDatabase:
+    print(x)
